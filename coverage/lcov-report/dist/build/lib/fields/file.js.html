@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for dist/build/lib/fields/file.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../../../prettify.css">
+    <link rel="stylesheet" href="../../../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">dist/build/lib/fields/file.js</span></h1>
+    <h2>
+        Statements: <span class="metric">0% <small>(0 / 22)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">0% <small>(0 / 3)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">0% <small>(0 / 22)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../../../index.html">All files</a> &#187; <a href="index.html">dist/build/lib/fields/</a> &#187; file.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+<span class="cstat-no" title="statement not covered" >var React = require('react');</span>
+<span class="cstat-no" title="statement not covered" >var $ = React.DOM;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >var ou = require('plexus-objective');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >var types = require('../types');</span>
+<span class="cstat-no" title="statement not covered" >var wrapped = require('./utils/wrapped');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >var FileField = React.createClass({</span>
+  displayName: 'FileField',
+&nbsp;
+  loadFile: <span class="fstat-no" title="function not covered" >function loadFile(event) {</span>
+<span class="cstat-no" title="statement not covered" >    var reader = new FileReader();</span>
+<span class="cstat-no" title="statement not covered" >    var file = event.target.files[0];</span>
+<span class="cstat-no" title="statement not covered" >    var val = ou.merge(this.props.getValue(this.props.path), {</span>
+      name: file.name,
+      type: file.type,
+      size: file.size
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.props.update(this.props.path, val, val);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    reader.onload = (<span class="fstat-no" title="function not covered" >function (event) {</span></span>
+<span class="cstat-no" title="statement not covered" >      val.data = event.target.result;</span>
+<span class="cstat-no" title="statement not covered" >      this.props.update(this.props.path, val, val);</span>
+    }).bind(this);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (file) {</span>
+<span class="cstat-no" title="statement not covered" >      if (this.props.mode === 'dataURL') {</span>
+<span class="cstat-no" title="statement not covered" >        reader.readAsDataURL(file);</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        reader.readAsText(file);</span>
+      }
+    }
+  },
+  render: <span class="fstat-no" title="function not covered" >function render() {</span>
+<span class="cstat-no" title="statement not covered" >    var fields = this.props.fields || {};</span>
+<span class="cstat-no" title="statement not covered" >    var value = this.props.value || {};</span>
+<span class="cstat-no" title="statement not covered" >    var list = [$.input({ key: "input", type: "file", onChange: this.loadFile }), $.dl({ key: "fileProperties" }, $.dt(null, "Name"), $.dd(null, value.name || '-'), $.dt(null, "Size"), $.dd(null, value.size || '-'), $.dt(null, "Type"), $.dd(null, value.type || '-'))];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return wrapped.section(this.props, list.concat(types.object(fields, this.props)));</span>
+  }
+});
+&nbsp;
+<span class="cstat-no" title="statement not covered" >module.exports = FileField;</span></pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 12 2015 13:21:30 GMT-0700 (PDT)</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/normalise.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../prettify.css">
+    <link rel="stylesheet" href="../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">lib/normalise.js</span></h1>
+    <h2>
+        Statements: <span class="metric">4.35% <small>(1 / 23)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 16)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">0% <small>(0 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">4.35% <small>(1 / 23)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">lib/</a> &#187; normalise.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+<span class="cstat-no" title="statement not covered" >var ou = require('plexus-objective');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >var alternative = require('./alternative');</span>
+<span class="cstat-no" title="statement not covered" >var resolve = require('./resolve');</span>
+&nbsp;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >module.exports = <span class="fstat-no" title="function not covered" >function(data, schema, context) {</span></span>
+<span class="cstat-no" title="statement not covered" >  return ou.prune(withDefaultOptions(data, schema, context));</span>
+};
+&nbsp;
+<span class="fstat-no" title="function not covered" >function withDefaultOptions(data, schema, context) {</span>
+<span class="cstat-no" title="statement not covered" >  var result;</span>
+<span class="cstat-no" title="statement not covered" >  var key;</span>
+<span class="cstat-no" title="statement not covered" >  var effectiveSchema = resolve(schema, context);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (effectiveSchema.oneOf) {</span>
+<span class="cstat-no" title="statement not covered" >    effectiveSchema = alternative.schema(data, effectiveSchema, context);</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (effectiveSchema['enum']) {</span>
+<span class="cstat-no" title="statement not covered" >    result = data || effectiveSchema['enum'][0];</span>
+  } else <span class="cstat-no" title="statement not covered" >if (effectiveSchema.type === 'object') {</span>
+<span class="cstat-no" title="statement not covered" >    result = ou.merge(data);</span>
+<span class="cstat-no" title="statement not covered" >    for (key in effectiveSchema.properties) {</span>
+<span class="cstat-no" title="statement not covered" >      result[key] = withDefaultOptions((data || {})[key],</span>
+                                       effectiveSchema.properties[key],
+                                       context);
+    }
+  } else <span class="cstat-no" title="statement not covered" >if (effectiveSchema.type === 'array') {</span>
+<span class="cstat-no" title="statement not covered" >    result = [];</span>
+<span class="cstat-no" title="statement not covered" >    for (key = 0; key &lt; (data || []).length; ++key) {</span>
+<span class="cstat-no" title="statement not covered" >      result[key] = withDefaultOptions((data || [])[key],</span>
+                                       effectiveSchema.items,
+                                       context);
+    }
+  } else {
+<span class="cstat-no" title="statement not covered" >    result = data;</span>
+  }
+<span class="cstat-no" title="statement not covered" >  return result;</span>
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 11 2015 13:45:06 GMT-0700 (PDT)</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

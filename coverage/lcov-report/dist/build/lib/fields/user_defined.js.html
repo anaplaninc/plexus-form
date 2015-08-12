@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for dist/build/lib/fields/user_defined.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../../../prettify.css">
+    <link rel="stylesheet" href="../../../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">dist/build/lib/fields/user_defined.js</span></h1>
+    <h2>
+        Statements: <span class="metric">0% <small>(0 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 8)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">0% <small>(0 / 5)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">0% <small>(0 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../../../index.html">All files</a> &#187; <a href="index.html">dist/build/lib/fields/</a> &#187; user_defined.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+<span class="cstat-no" title="statement not covered" >var React = require('react');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >var normalizer = require('./utils/normalizer');</span>
+<span class="cstat-no" title="statement not covered" >var parser = require('./utils/parser');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >var UserDefinedField = React.createClass({</span>
+  displayName: 'UserDefinedField',
+&nbsp;
+  normalize: <span class="fstat-no" title="function not covered" >function normalize(text) {</span>
+<span class="cstat-no" title="statement not covered" >    var n = normalizer[this.props.type];</span>
+<span class="cstat-no" title="statement not covered" >    return n ? n(text) : text;</span>
+  },
+  parse: <span class="fstat-no" title="function not covered" >function parse(text) {</span>
+<span class="cstat-no" title="statement not covered" >    var p = parser[this.props.type];</span>
+<span class="cstat-no" title="statement not covered" >    return p ? p(text) : text;</span>
+  },
+  handleChange: <span class="fstat-no" title="function not covered" >function handleChange(value) {</span>
+<span class="cstat-no" title="statement not covered" >    var text = this.normalize(value);</span>
+<span class="cstat-no" title="statement not covered" >    this.props.update(this.props.path, text, this.parse(text));</span>
+  },
+  handleKeyPress: <span class="fstat-no" title="function not covered" >function handleKeyPress(event) {</span>
+<span class="cstat-no" title="statement not covered" >    if (event.keyCode === 13) {</span>
+<span class="cstat-no" title="statement not covered" >      event.preventDefault();</span>
+    }
+  },
+  render: <span class="fstat-no" title="function not covered" >function render() {</span>
+<span class="cstat-no" title="statement not covered" >    return React.createElement(this.props.component, {</span>
+      schema: this.props.schema,
+      value: this.props.value || '',
+      onKeyPress: this.handleKeyPress,
+      onChange: this.handleChange
+    });
+  }
+});
+&nbsp;
+<span class="cstat-no" title="statement not covered" >module.exports = UserDefinedField;</span></pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 12 2015 13:21:30 GMT-0700 (PDT)</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>
