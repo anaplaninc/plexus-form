@@ -267,6 +267,27 @@ low-level key press events it does not handle itself to
                    submitOnChange = {true} />,
                  document.body);
 
+## Add Custom Classes
+You have the ability to input custom classes as a JavaScript Object:
+
+    const inputClassesObj = {
+      string: 'form-control',
+      integer: 'form-control',
+      number: 'form-control',
+      boolean : 'checkbox'
+    };
+
+    let EntityForm;
+    if (formSchema) {
+      EntityForm = (
+        <Form
+          onSubmit={this.onSubmit}
+          schema={formSchema.toJS()}
+          inputClasses={inputClassesObj}
+          />
+
+Current default class are Bootstrap classes.
+
 # License
 
 The MIT License (MIT)
