@@ -92,10 +92,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var React = __webpack_require__(2);
 	var $ = React.DOM;
 
-	var ou = __webpack_require__(5);
+	var ou = __webpack_require__(3);
 
 	var fields = __webpack_require__(4);
-	var normalise = __webpack_require__(3);
+	var normalise = __webpack_require__(17);
 
 
 	module.exports = React.createClass({
@@ -184,6 +184,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      sectionWrapper: this.props.sectionWrapper,
 	      handlers      : this.props.handlers,
 	      hints         : this.props.hints,
+	      inputClasses  : this.props.inputClasses,
 	      path          : [],
 	      update        : this.setValue,
 	      getValue      : this.getValue,
@@ -221,77 +222,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
 /***/ },
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var ou = __webpack_require__(5);
-
-	var alternative = __webpack_require__(6);
-	var resolve = __webpack_require__(7);
-
-
-	module.exports = function(data, schema, context) {
-	  return ou.prune(withDefaultOptions(data, schema, context));
-	};
-
-	function withDefaultOptions(data, schema, context) {
-	  var result;
-	  var key;
-	  var effectiveSchema = resolve(schema, context);
-
-	  if (effectiveSchema.oneOf) {
-	    effectiveSchema = alternative.schema(data, effectiveSchema, context);
-	  }
-
-	  if (effectiveSchema['enum']) {
-	    result = data || effectiveSchema['enum'][0];
-	  } else if (effectiveSchema.type === 'object') {
-	    result = ou.merge(data);
-	    for (key in effectiveSchema.properties) {
-	      result[key] = withDefaultOptions((data || {})[key],
-	                                       effectiveSchema.properties[key],
-	                                       context);
-	    }
-	  } else if (effectiveSchema.type === 'array') {
-	    result = [];
-	    for (key = 0; key < (data || []).length; ++key) {
-	      result[key] = withDefaultOptions((data || [])[key],
-	                                       effectiveSchema.items,
-	                                       context);
-	    }
-	  } else {
-	    result = data;
-	  }
-	  return result;
-	}
-
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	module.exports = {
-	    CheckBox: __webpack_require__(8),
-	    FileField: __webpack_require__(9),
-	    InputField: __webpack_require__(10),
-	    UserDefinedField: __webpack_require__(11),
-	    Selection: __webpack_require__(12),
-	    make: __webpack_require__(13),
-	};
-
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	/*
 	The MIT License (MIT)
@@ -449,82 +386,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 6 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var ou = __webpack_require__(5);
-	var resolve = __webpack_require__(7);
-
-	exports.schema = function(value, schema, context) {
-	  var selector, options, selected;
-
-	  selector = ou.getIn(schema, ['x-hints', 'form', 'selector']);
-	  if (!selector) {
-	    return;
-	  }
-
-	  var dereferenced = schema.oneOf.map(function(alt) {
-	    return resolve(alt, context);
-	  });
-	    
-	  options = dereferenced.map(function(alt) {
-	    return ou.getIn(alt, [ 'properties', selector, 'enum', 0 ]) || "";
-	  });
-
-	  selected = (value || {})[selector] || options[0];
-
-	  return ou.merge(ou.setIn(dereferenced[options.indexOf(selected)],
-	                           [ 'properties', selector ],
-	                           ou.merge(ou.getIn(schema, [ 'properties', selector]),
-	                                    { enum: options })),
-	                  { type: 'object' });
+	module.exports = {
+	    CheckBox: __webpack_require__(5),
+	    FileField: __webpack_require__(6),
+	    InputField: __webpack_require__(11),
+	    UserDefinedField: __webpack_require__(14),
+	    Selection: __webpack_require__(15),
+	    make: __webpack_require__(16),
 	};
 
 
 /***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var ou = __webpack_require__(5);
-
-
-	module.exports = function(schema, context) {
-	  var reference = schema['$ref'];
-
-	  if (reference) {
-	    if (!reference.match(/^#(\/([a-zA-Z_][a-zA-Z_0-9]*|[0-9]+))*$/)) {
-	      throw new Error('reference '+reference+' has unsupported format');
-	    }
-
-	    return ou.merge(
-	      ou.getIn(context, reference.split('/').slice(1)),
-	      without(schema, '$ref'));
-	  }
-	  else {
-	    return schema;
-	  }
-	};
-
-	function without(obj) {
-	  var args = [].slice.call(arguments);
-	  var result = Array.isArray(obj) ? [] : {};
-
-	  for (var key in obj) {
-	    if (args.indexOf(key) < 0) {
-	      result[key] = obj[key];
-	    }
-	  }
-
-	  return result;
-	}
-
-
-/***/ },
-/* 8 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -543,6 +421,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  render: function() {
 	    return $.input({
 	      name: this.props.label,
+	      className : this.props.inputClasses[this.props.schema.type],
 	      type: "checkbox",
 	      checked: this.props.value || false,
 	      onChange: this.handleChange });
@@ -554,7 +433,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -562,10 +441,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var React = __webpack_require__(2);
 	var $ = React.DOM;
 
-	var ou = __webpack_require__(5);
+	var ou = __webpack_require__(3);
 
-	var types = __webpack_require__(14);
-	var wrapped = __webpack_require__(15);
+	var types = __webpack_require__(7);
+	var wrapped = __webpack_require__(10);
 
 
 	var FileField = React.createClass({
@@ -616,224 +495,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 10 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(2);
-	var $ = React.DOM;
+	var ou = __webpack_require__(3);
 
-	var normalizer = __webpack_require__(16);
-	var parser = __webpack_require__(17);
-
-
-	var InputField = React.createClass({
-	  displayName: 'InputField',
-
-	  normalize: function(text) {
-	    return normalizer[this.props.type](text);
-	  },
-	  parse: function(text) {
-	    return parser[this.props.type](text);
-	  },
-	  handleChange: function(event) {
-	    var text = this.normalize(event.target.value);
-	    this.props.update(this.props.path, text, this.parse(text));
-	  },
-	  handleKeyPress: function(event) {
-	    if (event.keyCode === 13) {
-	      event.preventDefault();
-	    }
-	  },
-	  render: function() {
-	    return $.input({
-	      type      : "text",
-	      name      : this.props.label,
-	      value     : this.props.value || '',
-	      onKeyPress: this.handleKeyPress,
-	      onChange  : this.handleChange });
-	  }
-	});
-
-	module.exports = InputField;
-
-
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(2);
-
-	var normalizer = __webpack_require__(16);
-	var parser = __webpack_require__(17);
-
-
-	var UserDefinedField = React.createClass({
-	  displayName: 'UserDefinedField',
-
-	  normalize: function(text) {
-	    var n = normalizer[this.props.type];
-	    return n ? n(text) : text;
-	  },
-	  parse: function(text) {
-	    var p = parser[this.props.type];
-	    return p ? p(text) : text;
-	  },
-	  handleChange: function(value) {
-	    var text = this.normalize(value);
-	    this.props.update(this.props.path, text, this.parse(text));
-	  },
-	  handleKeyPress: function(event) {
-	    if (event.keyCode === 13) {
-	      event.preventDefault();
-	    }
-	  },
-	  render: function() {
-	    return React.createElement(this.props.component, {
-	      schema    : this.props.schema,
-	      value     : this.props.value || '',
-	      onKeyPress: this.handleKeyPress,
-	      onChange  : this.handleChange
-	    });
-	  }
-	});
-
-	module.exports = UserDefinedField;
-
-
-/***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(2);
-	var $ = React.DOM;
-
-	var normalizer = __webpack_require__(16);
-	var parser = __webpack_require__(17);
-
-
-	var Selection = React.createClass({
-	  displayName: 'Selection',
-
-	  normalize: function(text) {
-	    // XXXXX: assume string in case type isn't set
-	    var type = this.props.type || 'string';
-
-	    return normalizer[type](text);
-	  },
-	  parse: function(text) {
-	    // XXXXX: assume string in case type isn't set
-	    var type = this.props.type || 'string';
-
-	    return parser[type](text);
-	  },
-	  handleChange: function(event) {
-	    var val = this.normalize(event.target.value);
-	    this.props.update(this.props.path, val, this.parse(val));
-	  },
-	  render: function() {
-	    var names = this.props.names;
-
-	    return $.select(
-	      {
-	        name    : this.props.label,
-	        value   : this.props.value || this.props.values[0],
-	        onChange: this.handleChange
-	      },
-	      this.props.values.map(function(opt, i) {
-	        return $.option({ key: opt, value: opt }, names[i] || opt);
-	      }));
-	  }
-	});
-
-	module.exports = Selection;
-
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(2);
-
-	var ou = __webpack_require__(5);
-
-	var resolve = __webpack_require__(7);
-	var types = __webpack_require__(14);
-	var wrapped = __webpack_require__(15);
-
-
-	module.exports = function(fields, props) {
-	  var schema = resolve(props.schema, props.context);
-	  var hints = schema['x-hints'] || {};
-	  var inputComponent = ou.getIn(hints, ['form', 'inputComponent']);
-	  var key = makeKey(props.path);
-
-	  props = ou.merge(props, {
-	    schema: schema,
-	    key   : key,
-	    label : key,
-	    value : props.getValue(props.path),
-	    errors: props.getErrors(props.path),
-	    type  : schema.type
-	  });
-
-	  if (inputComponent) {
-	    props = ou.merge(props, { component: props.handlers[inputComponent] });
-	    return wrapped.field(props, React.createElement(fields.UserDefinedField, props));
-	  } else if (hints.fileUpload) {
-	    console.warn("DEPRECATION WARNING: built-in file upload will be removed");
-	    // FileField cannot depend on fields directly (cyclic dependency)
-	    props = ou.merge(props, { fields: fields });
-	    return React.createElement(
-	      fields.FileField, ou.merge(props, { mode: hints.fileUpload.mode }));
-	  }
-	  else if (schema['oneOf']) {
-	    return wrapped.section(props, types.alternative(fields, props));
-	  }
-	  else if (schema['enum']) {
-	    props = ou.merge(props, {
-	        values: schema['enum'],
-	        names: schema['enumNames'] || schema['enum'] });
-	    return wrapped.field(props, React.createElement(fields.Selection, props));
-	  }
-
-	  switch (schema.type) {
-	  case "boolean":
-	    return wrapped.field(props, React.createElement(fields.CheckBox, props));
-	  case "object" :
-	    return wrapped.section(props, types.object(fields, props));
-	  case "array"  :
-	    return wrapped.section(props, types.array(fields, props));
-	  case "number" :
-	  case "integer":
-	  case "string" :
-	  default:
-	    return wrapped.field(props, React.createElement(fields.InputField, props));
-	  }
-	};
-
-	function makeKey(path) {
-	  return path.join('_');
-	}
-
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var ou = __webpack_require__(5);
-
-	var alternative = __webpack_require__(6);
+	var alternative = __webpack_require__(8);
 
 
 	var types = {
@@ -892,7 +561,82 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 15 */
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var ou = __webpack_require__(3);
+	var resolve = __webpack_require__(9);
+
+	exports.schema = function(value, schema, context) {
+	  var selector, options, selected;
+
+	  selector = ou.getIn(schema, ['x-hints', 'form', 'selector']);
+	  if (!selector) {
+	    return;
+	  }
+
+	  var dereferenced = schema.oneOf.map(function(alt) {
+	    return resolve(alt, context);
+	  });
+	    
+	  options = dereferenced.map(function(alt) {
+	    return ou.getIn(alt, [ 'properties', selector, 'enum', 0 ]) || "";
+	  });
+
+	  selected = (value || {})[selector] || options[0];
+
+	  return ou.merge(ou.setIn(dereferenced[options.indexOf(selected)],
+	                           [ 'properties', selector ],
+	                           ou.merge(ou.getIn(schema, [ 'properties', selector]),
+	                                    { enum: options })),
+	                  { type: 'object' });
+	};
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var ou = __webpack_require__(3);
+
+
+	module.exports = function(schema, context) {
+	  var reference = schema['$ref'];
+
+	  if (reference) {
+	    if (!reference.match(/^#(\/([a-zA-Z_][a-zA-Z_0-9]*|[0-9]+))*$/)) {
+	      throw new Error('reference '+reference+' has unsupported format');
+	    }
+
+	    return ou.merge(
+	      ou.getIn(context, reference.split('/').slice(1)),
+	      without(schema, '$ref'));
+	  }
+	  else {
+	    return schema;
+	  }
+	};
+
+	function without(obj) {
+	  var args = [].slice.call(arguments);
+	  var result = Array.isArray(obj) ? [] : {};
+
+	  for (var key in obj) {
+	    if (args.indexOf(key) < 0) {
+	      result[key] = obj[key];
+	    }
+	  }
+
+	  return result;
+	}
+
+
+/***/ },
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -900,7 +644,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var React = __webpack_require__(2);
 	var $ = React.DOM;
 
-	var ou = __webpack_require__(5);
+	var ou = __webpack_require__(3);
 
 
 	var errorClass = function(errors) {
@@ -994,8 +738,54 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(2);
+	var $ = React.DOM;
+
+	var normalizer = __webpack_require__(12);
+	var parser = __webpack_require__(13);
+
+
+	var InputField = React.createClass({
+	  displayName: 'InputField',
+
+	  normalize: function(text) {
+	    return normalizer[this.props.type](text);
+	  },
+	  parse: function(text) {
+	    return parser[this.props.type](text);
+	  },
+	  handleChange: function(event) {
+	    var text = this.normalize(event.target.value);
+	    this.props.update(this.props.path, text, this.parse(text));
+	  },
+	  handleKeyPress: function(event) {
+	    if (event.keyCode === 13) {
+	      event.preventDefault();
+	    }
+	  },
+	  render: function() {
+	    return $.input({
+	      type      : "text",
+	      name      : this.props.label,
+	      value     : this.props.value || '',
+	      className : this.props.inputClasses[this.props.schema.type],
+	      onKeyPress: this.handleKeyPress,
+	      onChange  : this.handleChange });
+	  }
+	});
+
+	module.exports = InputField;
+
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
 
 	'use strict';
 
@@ -1024,12 +814,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var normalizer = __webpack_require__(16);
+	var normalizer = __webpack_require__(12);
 
 
 	exports.string = function(text) {
@@ -1043,6 +833,230 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.number = function(text) {
 	  return text ? parseFloat(normalizer.number(text)) : null;
 	};
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(2);
+
+	var normalizer = __webpack_require__(12);
+	var parser = __webpack_require__(13);
+
+
+	var UserDefinedField = React.createClass({
+	  displayName: 'UserDefinedField',
+
+	  normalize: function(text) {
+	    var n = normalizer[this.props.type];
+	    return n ? n(text) : text;
+	  },
+	  parse: function(text) {
+	    var p = parser[this.props.type];
+	    return p ? p(text) : text;
+	  },
+	  handleChange: function(value) {
+	    var text = this.normalize(value);
+	    this.props.update(this.props.path, text, this.parse(text));
+	  },
+	  handleKeyPress: function(event) {
+	    if (event.keyCode === 13) {
+	      event.preventDefault();
+	    }
+	  },
+	  render: function() {
+	    return React.createElement(this.props.component, {
+	      schema    : this.props.schema,
+	      value     : this.props.value || '',
+	      onKeyPress: this.handleKeyPress,
+	      onChange  : this.handleChange
+	    });
+	  }
+	});
+
+	module.exports = UserDefinedField;
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(2);
+	var $ = React.DOM;
+
+	var normalizer = __webpack_require__(12);
+	var parser = __webpack_require__(13);
+
+
+	var Selection = React.createClass({
+	  displayName: 'Selection',
+
+	  normalize: function(text) {
+	    // XXXXX: assume string in case type isn't set
+	    var type = this.props.type || 'string';
+
+	    return normalizer[type](text);
+	  },
+	  parse: function(text) {
+	    // XXXXX: assume string in case type isn't set
+	    var type = this.props.type || 'string';
+
+	    return parser[type](text);
+	  },
+	  handleChange: function(event) {
+	    var val = this.normalize(event.target.value);
+	    this.props.update(this.props.path, val, this.parse(val));
+	  },
+	  render: function() {
+	    var names = this.props.names;
+
+	    return $.select(
+	      {
+	        name    : this.props.label,
+	        value   : this.props.value || this.props.values[0],
+	        onChange: this.handleChange
+	      },
+	      this.props.values.map(function(opt, i) {
+	        return $.option({ key: opt, value: opt }, names[i] || opt);
+	      }));
+	  }
+	});
+
+	module.exports = Selection;
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(2);
+
+	var ou = __webpack_require__(3);
+
+	var resolve = __webpack_require__(9);
+	var types = __webpack_require__(7);
+	var wrapped = __webpack_require__(10);
+
+
+	module.exports = function(fields, props) {
+	  var schema = resolve(props.schema, props.context);
+	  var hints = schema['x-hints'] || {};
+	  var inputComponent = ou.getIn(hints, ['form', 'inputComponent']);
+	  var key = makeKey(props.path);
+	  var inputClasses = props.inputClasses;
+	  var defaultClasses = { // Default values
+	    string : 'form-control',
+	    integer : 'form-control',
+	    number : 'form-control',
+	    boolean : 'checkbox'
+	  };
+
+	  //Merge with default values
+	  for (var key in inputClasses) { defaultClasses[key] = inputClasses[key]; }
+
+	  props = ou.merge(props, {
+	    schema: schema,
+	    key   : key,
+	    label : key,
+	    value : props.getValue(props.path),
+	    errors: props.getErrors(props.path),
+	    type  : schema.type,
+	    inputClasses : props.inputClasses
+	  });
+
+	  if (inputComponent) {
+	    props = ou.merge(props, { component: props.handlers[inputComponent] });
+	    return wrapped.field(props, React.createElement(fields.UserDefinedField, props));
+	  } else if (hints.fileUpload) {
+	    console.warn("DEPRECATION WARNING: built-in file upload will be removed");
+	    // FileField cannot depend on fields directly (cyclic dependency)
+	    props = ou.merge(props, { fields: fields });
+	    return React.createElement(
+	      fields.FileField, ou.merge(props, { mode: hints.fileUpload.mode }));
+	  }
+	  else if (schema['oneOf']) {
+	    return wrapped.section(props, types.alternative(fields, props));
+	  }
+	  else if (schema['enum']) {
+	    props = ou.merge(props, {
+	        values: schema['enum'],
+	        names: schema['enumNames'] || schema['enum'] });
+	    return wrapped.field(props, React.createElement(fields.Selection, props));
+	  }
+
+	  switch (schema.type) {
+	  case "boolean":
+	    return wrapped.field(props, React.createElement(fields.CheckBox, props));
+	  case "object" :
+	    return wrapped.section(props, types.object(fields, props));
+	  case "array"  :
+	    return wrapped.section(props, types.array(fields, props));
+	  case "number" :
+	  case "integer":
+	  case "string" :
+	  default:
+	    return wrapped.field(props, React.createElement(fields.InputField, props));
+	  }
+	};
+
+	function makeKey(path) {
+	  return path.join('_');
+	}
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var ou = __webpack_require__(3);
+
+	var alternative = __webpack_require__(8);
+	var resolve = __webpack_require__(9);
+
+
+	module.exports = function(data, schema, context) {
+	  return ou.prune(withDefaultOptions(data, schema, context));
+	};
+
+	function withDefaultOptions(data, schema, context) {
+	  var result;
+	  var key;
+	  var effectiveSchema = resolve(schema, context);
+
+	  if (effectiveSchema.oneOf) {
+	    effectiveSchema = alternative.schema(data, effectiveSchema, context);
+	  }
+
+	  if (effectiveSchema['enum']) {
+	    result = data || effectiveSchema['enum'][0];
+	  } else if (effectiveSchema.type === 'object') {
+	    result = ou.merge(data);
+	    for (key in effectiveSchema.properties) {
+	      result[key] = withDefaultOptions((data || {})[key],
+	                                       effectiveSchema.properties[key],
+	                                       context);
+	    }
+	  } else if (effectiveSchema.type === 'array') {
+	    result = [];
+	    for (key = 0; key < (data || []).length; ++key) {
+	      result[key] = withDefaultOptions((data || [])[key],
+	                                       effectiveSchema.items,
+	                                       context);
+	    }
+	  } else {
+	    result = data;
+	  }
+	  return result;
+	}
 
 
 /***/ }

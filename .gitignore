@@ -1,3 +1,6 @@
+.idea
+coverage
+dist/build
 *.log
 gh-pages/
 node_modules/
