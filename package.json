@@ -35,6 +35,8 @@
     "url": "https://github.com/AppliedMathematicsANU/plexus-form.git"
   },
   "devDependencies": {
+    "babel-core": "^5.8.22",
+    "babel-loader": "^5.3.2",
     "css-loader": "^0.9.1",
     "file-loader": "^0.8.1",
     "highlight.js": "^8.4.0",
@@ -48,7 +50,7 @@
     "react-hot-loader": "^1.1.6",
     "style-loader": "^0.8.3",
     "url-loader": "^0.5.5",
-    "webpack": "^1.6.0",
+    "webpack": "^1.11.0",
     "webpack-dev-server": "^1.7.0",
     "xtend": "^4.0.0"
   }
