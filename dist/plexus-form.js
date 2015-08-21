@@ -950,6 +950,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var hints = schema['x-hints'] || {};
 	  var inputComponent = ou.getIn(hints, ['form', 'inputComponent']);
 	  var key = makeKey(props.path);
+	  var classes;
 	  var inputClasses = props.inputClasses;
 	  var defaultClasses = { // Default values
 	    string : 'form-control',
@@ -959,7 +960,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  //Merge with default values
-	  for (var key in inputClasses) { defaultClasses[key] = inputClasses[key]; }
+	  classes = ou.merge(defaultClasses, inputClasses);
 
 	  props = ou.merge(props, {
 	    schema: schema,
@@ -968,7 +969,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value : props.getValue(props.path),
 	    errors: props.getErrors(props.path),
 	    type  : schema.type,
-	    inputClasses : props.inputClasses
+	    inputClasses : classes
 	  });
 
 	  if (inputComponent) {

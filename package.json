@@ -23,7 +23,7 @@
     "name": "Olaf Delgado-Friedrichs",
     "email": "olaf.delgado@gmail.com"
   },
-  "main": "lib/index.js",
+  "main": "dist/plexus-form.js",
   "dependencies": {
     "plexus-objective": "~0.0.1"
   },
